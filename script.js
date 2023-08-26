@@ -1,3 +1,5 @@
+Swal.fire('Bienvenido a tu simulador de carta natal')
+
 const signosZodiacales = [
   { signo: "Capricornio", inicio: "12-22", fin: "01-19" },
   { signo: "Acuario", inicio: "01-20", fin: "02-18" },
