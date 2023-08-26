@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Simulador de Carta Natal</title>
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Simulador de Carta Natal</h1>
+        </header>
+        <main class="main">
+            <form class="form" id="birthdate-form">
+                <label class="label" for="birthdate">Fecha de Nacimiento (DD/MM):</label>
+                <input class="input" type="text" id="birthdate" placeholder="DD/MM" required>
+                <small class="format">Formato: DD/MM</small>
+
+                <label class="label" for="birth-time">Hora de Nacimiento (HH:MM):</label>
+                <input class="input" type="text" id="birth-time" placeholder="HH:MM" required>
+                <small class="format">Formato: HH:MM</small>
+
+                <label class="label" for="birth-location">Ubicación de Nacimiento:</label>
+                <input class="input" type="text" id="birth-location" placeholder="Ciudad, País" required>
+                <small class="format">Ejemplo: Buenos Aires, Argentina</small>
+
+                <button class="button" type="submit">Calcular</button>
+            </form>
+            <div class="results">
+                <p class="sign" id="zodiac-sign"></p>
+                <h2>Posiciones Planetas</h2>
+                <ul class="planets" id="planet-positions"></ul>
+            </div>
+        </main>
+        <footer class="footer">
+            <p>Simulador de Carta Natal | Mariana Paolini - Todos los derechos reservados</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
