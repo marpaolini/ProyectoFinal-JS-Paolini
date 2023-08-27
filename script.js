@@ -1,4 +1,4 @@
-Swal.fire('Bienvenido a tu simulador de carta natal')
+Swal.fire('Bienvenido a tu simulador de carta natal');
 
 const signosZodiacales = [
   { signo: "Capricornio", inicio: "12-22", fin: "01-19" },
@@ -16,49 +16,21 @@ const signosZodiacales = [
 ];
 
 function obtenerSignoZodiacal(dia, mes) {
-  const fecha = `${mes.toString().padStart(2, "0")}-${dia
-    .toString()
-    .padStart(2, "0")}`;
+  const fecha = `${mes.toString().padStart(2, "0")}-${dia.toString().padStart(2, "0")}`;
   const signoEncontrado = signosZodiacales.find(
     (signo) => fecha >= signo.inicio && fecha <= signo.fin
   );
   return signoEncontrado ? signoEncontrado.signo : "Fecha inválida";
 }
 
-function calcularPosicionPlanetas() {
-  return {
-    sol: "Leo",
-    luna: "Cáncer",
-    mercurio: "Virgo",
-    venus: "Libra",
-    marte: "Escorpio",
-    jupiter: "Sagitario",
-    saturno: "Capricornio",
-    urano: "Acuario",
-    neptuno: "Piscis",
-    pluton: "Escorpio",
-  };
-}
-
-function mostrarCartaNatal(signo, planetas) {
+function mostrarCartaNatal(signo) {
   const zodiacSignElement = document.getElementById("zodiac-sign");
-  const planetPositionsElement = document.getElementById("planet-positions");
-
   zodiacSignElement.textContent = "Tu signo zodiacal es: " + signo;
-
-  const planetasList = document.createElement("ul");
-  for (const planeta in planetas) {
-    const planetItem = document.createElement("li");
-    planetItem.textContent = `${planeta}: ${planetas[planeta]}`;
-    planetasList.appendChild(planetItem);
-  }
-  planetPositionsElement.innerHTML = "";
-  planetPositionsElement.appendChild(planetasList);
 }
 
 const birthdateForm = document.getElementById("birthdate-form");
 
-birthdateForm.addEventListener("submit", function (event) {
+birthdateForm.addEventListener("submit", async function (event) {
   event.preventDefault();
 
   const enteredBirthdate = document.getElementById("birthdate").value;
@@ -70,11 +42,34 @@ birthdateForm.addEventListener("submit", function (event) {
   const [hour, minute] = enteredBirthTime.split(":");
 
   const sign = obtenerSignoZodiacal(parseInt(day), parseInt(month));
-  const planetas = calcularPosicionPlanetas();
 
-
-  mostrarCartaNatal(sign, planetas);
+  mostrarCartaNatal(sign);
 
   localStorage.setItem("zodiacSign", sign);
-  localStorage.setItem("planetPositions", JSON.stringify(planetas));
+
+
+  // API HOROSCOPO
+  const url = `https://horoscope-api.p.rapidapi.com/pt/${sign.toLowerCase()}`;
+
+  const options = {
+    method: 'GET',
+    headers: {
+      'X-RapidAPI-Key': 'cd83a9b47cmsh14e4bb523d83bcep106a90jsn57734b7fa7ab',
+      'X-RapidAPI-Host': 'horoscope-api.p.rapidapi.com'
+    }
+  };
+
+  const horoscopoDiario = async () => {
+    try {
+      const respuesta = await fetch(url, options);
+      const result = await respuesta.json();
+  
+      const horoscopo = result.horoscope; 
+      document.getElementById('horoscopo-diario').textContent = horoscopo;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  horoscopoDiario();
 });

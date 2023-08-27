@@ -79,15 +79,6 @@ body {
   margin-top: 1rem;
 }
 
-.planets {
-  list-style: none;
-  padding: 0;
-}
-
-.planets li {
-  margin: 0.5rem 0;
-}
-
 .format {
   font-size: 0.8rem;
   color: #777;
