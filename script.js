@@ -51,6 +51,19 @@ function mostrarCartaNatal(signo) {
 
 const birthdateForm = document.getElementById("birthdate-form");
 
+const horoscopoDiario = async (signo) => {
+  try {
+    const respuesta = await fetch('horoscopes.json');
+    const data = await respuesta.json();
+    const horoscopo = data.find(item => item.signo === signo).horoscopo;
+    setTimeout(() => {
+      document.getElementById('horoscopo-diario').textContent = horoscopo;
+    }, 1000);
+  } catch (error) {
+    document.getElementById('horoscopo-diario').textContent = "Error al encontrar el horóscopo.";
+  }
+};
+
 birthdateForm.addEventListener("submit", async function (event) {
   event.preventDefault();
 
@@ -58,8 +71,6 @@ birthdateForm.addEventListener("submit", async function (event) {
   const enteredBirthTime = document.getElementById("birth-time").value;
   const enteredBirthLocation = document.getElementById("birth-location").value;
   
-
-  // Validar y realizar cálculos
   const [day, month] = enteredBirthdate.split("/");
   const [hour, minute] = enteredBirthTime.split(":");
 
@@ -69,29 +80,6 @@ birthdateForm.addEventListener("submit", async function (event) {
 
   localStorage.setItem("zodiacSign", sign);
 
-
-  // API HOROSCOPO
-  
-  // const url = `https://daily-horoscope-api.p.rapidapi.com/api/Daily-Horoscope-English/?zodiacSign=sign&timePeriod=today`;
-  
-  // const options = {
-  //   method: 'GET',
-  //   headers: {
-  //     'X-RapidAPI-Key': 'cd83a9b47cmsh14e4bb523d83bcep106a90jsn57734b7fa7ab',
-  //     'X-RapidAPI-Host': 'daily-horoscope-api.p.rapidapi.com'
-  //   }
-  // };
-
-  // const horoscopoDiario = async () => {
-  //   try {
-  //     const respuesta = await fetch(url, options);
-  //     const result = await respuesta.json();
-  //     const horoscopo = result.horoscope; 
-  //     document.getElementById('horoscopo-diario').textContent = horoscopo;
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-  
-  // horoscopoDiario();
-});
+  // Mostrar resultado
+  await horoscopoDiario(sign);
+  });
