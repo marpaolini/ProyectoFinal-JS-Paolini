@@ -71,27 +71,27 @@ birthdateForm.addEventListener("submit", async function (event) {
 
 
   // API HOROSCOPO
-  const url = `https://horoscope-api.p.rapidapi.com/pt/${sign.toLowerCase()}`;
-
-  const options = {
-    method: 'GET',
-    headers: {
-      'X-RapidAPI-Key': 'cd83a9b47cmsh14e4bb523d83bcep106a90jsn57734b7fa7ab',
-      'X-RapidAPI-Host': 'horoscope-api.p.rapidapi.com'
-    }
-  };
-
-  const horoscopoDiario = async () => {
-    try {
-      const respuesta = await fetch(url, options);
-      const result = await respuesta.json();
   
-      const horoscopo = result.horoscope; 
-      document.getElementById('horoscopo-diario').textContent = horoscopo;
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const url = `https://daily-horoscope-api.p.rapidapi.com/api/Daily-Horoscope-English/?zodiacSign=sign&timePeriod=today`;
   
-  horoscopoDiario();
+  // const options = {
+  //   method: 'GET',
+  //   headers: {
+  //     'X-RapidAPI-Key': 'cd83a9b47cmsh14e4bb523d83bcep106a90jsn57734b7fa7ab',
+  //     'X-RapidAPI-Host': 'daily-horoscope-api.p.rapidapi.com'
+  //   }
+  // };
+
+  // const horoscopoDiario = async () => {
+  //   try {
+  //     const respuesta = await fetch(url, options);
+  //     const result = await respuesta.json();
+  //     const horoscopo = result.horoscope; 
+  //     document.getElementById('horoscopo-diario').textContent = horoscopo;
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  
+  // horoscopoDiario();
 });
