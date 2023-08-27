@@ -17,21 +17,33 @@ const signosZodiacales = [
 
 // Función para obtener el signo zodiacal 
 function obtenerSignoZodiacal(dia, mes) {
+  if ((mes === 12 && dia >= 22) || (mes === 1 && dia <= 19)) {
+    return "Capricornio";
+  }
+
+  // Hice ese if para capricornio ya que tenia problemas para que se mostrara el signo bien ya que el rango de fechas
+  // correspondiente abarca el cambio de año que va desde el 22 de diciembre al 19 de enero
+
   const fecha = new Date(2000, mes - 1, dia); // Usamos un año fijo (2000)
   let signoEncontrado = "Fecha inválida";
-  
+
   for (const signo of signosZodiacales) {
     const inicio = new Date(2000, getMes(signo.inicio), getDia(signo.inicio));
     const fin = new Date(2000, getMes(signo.fin), getDia(signo.fin));
-    
-    if ((signo.signo === "Capricornio" && (fecha >= inicio || fecha <= fin)) ||
-        (fecha >= inicio && fecha <= fin)) {
+
+    if (isWithinRange(fecha, inicio, fin)) {
       signoEncontrado = signo.signo;
-      break; 
+      break;
     }
   }
-  
+
   return signoEncontrado;
+}
+
+// Utilice la libreria date-fns para un mejor manejo de fechas 
+
+function isWithinRange(date, startDate, endDate) {
+  return date >= startDate && date <= endDate;
 }
 
 // Función auxiliar para obtener el día 
@@ -50,6 +62,8 @@ function mostrarCartaNatal(signo) {
 }
 
 const birthdateForm = document.getElementById("birthdate-form");
+
+// Los resultados provienen de un json local ya que no encontre una API de horoscopos que funcionara bien
 
 const horoscopoDiario = async (signo) => {
   try {
@@ -70,6 +84,19 @@ birthdateForm.addEventListener("submit", async function (event) {
   const enteredBirthdate = document.getElementById("birthdate").value;
   const enteredBirthTime = document.getElementById("birth-time").value;
   const enteredBirthLocation = document.getElementById("birth-location").value;
+
+  const timePattern = /^[0-2][0-9]:[0-5][0-9]$/;
+  const locationPattern = /^[\w\s]+,[\w\s]+$/;
+
+  if (!timePattern.test(enteredBirthTime)) {
+    Swal.fire("Error", "Ingrese una hora válida en formato HH:MM", "error");
+    return;
+  }
+
+  if (!locationPattern.test(enteredBirthLocation)) {
+    Swal.fire("Error", "Ingrese una ubicación válida en formato Ciudad, País", "error");
+    return;
+  }
   
   const [day, month] = enteredBirthdate.split("/");
   const [hour, minute] = enteredBirthTime.split(":");

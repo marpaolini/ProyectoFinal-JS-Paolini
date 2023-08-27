@@ -7,6 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/2.23.0/date_fns.min.js"></script>
     <link rel="stylesheet" href="styles.css">
     <title>Simulador de Carta Natal</title>
 
@@ -24,12 +25,13 @@
                 <small class="format">Formato: DD/MM</small>
 
                 <label class="label" for="birth-time">Hora de Nacimiento (HH:MM):</label>
-                <input class="input" type="text" id="birth-time" placeholder="HH:MM" required>
+                <input class="input" type="text" id="birth-time" pattern="[0-2][0-9]:[0-5][0-9]" placeholder="HH:MM" required>
                 <small class="format">Formato: HH:MM</small>
-
-                <label class="label" for="birth-location">Ubicación de Nacimiento:</label>
-                <input class="input" type="text" id="birth-location" placeholder="Ciudad, País" required>
+                
+                <label class="label" for="birth-location">Ubicación de Nacimiento (Ciudad, País):</label>
+                <input class="input" type="text" id="birth-location" pattern="[\w\s]+,[\w\s]+" placeholder="Ciudad, País" required>
                 <small class="format">Ejemplo: Buenos Aires, Argentina</small>
+                
 
                 <button class="button" type="submit">Calcular</button>
             </form>
