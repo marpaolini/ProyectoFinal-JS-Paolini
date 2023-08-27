@@ -15,12 +15,33 @@ const signosZodiacales = [
   { signo: "Sagitario", inicio: "11-22", fin: "12-21" },
 ];
 
+// Función para obtener el signo zodiacal 
 function obtenerSignoZodiacal(dia, mes) {
-  const fecha = `${mes.toString().padStart(2, "0")}-${dia.toString().padStart(2, "0")}`;
-  const signoEncontrado = signosZodiacales.find(
-    (signo) => fecha >= signo.inicio && fecha <= signo.fin
-  );
-  return signoEncontrado ? signoEncontrado.signo : "Fecha inválida";
+  const fecha = new Date(2000, mes - 1, dia); // Usamos un año fijo (2000)
+  let signoEncontrado = "Fecha inválida";
+  
+  for (const signo of signosZodiacales) {
+    const inicio = new Date(2000, getMes(signo.inicio), getDia(signo.inicio));
+    const fin = new Date(2000, getMes(signo.fin), getDia(signo.fin));
+    
+    if ((signo.signo === "Capricornio" && (fecha >= inicio || fecha <= fin)) ||
+        (fecha >= inicio && fecha <= fin)) {
+      signoEncontrado = signo.signo;
+      break; 
+    }
+  }
+  
+  return signoEncontrado;
+}
+
+// Función auxiliar para obtener el día 
+function getDia(fecha) {
+  return parseInt(fecha.split("-")[1]);
+}
+
+// Función auxiliar para obtener el mes 
+function getMes(fecha) {
+  return parseInt(fecha.split("-")[0]) - 1; // se resta 1 porque en js los meses son de 0 a 11
 }
 
 function mostrarCartaNatal(signo) {
@@ -36,6 +57,7 @@ birthdateForm.addEventListener("submit", async function (event) {
   const enteredBirthdate = document.getElementById("birthdate").value;
   const enteredBirthTime = document.getElementById("birth-time").value;
   const enteredBirthLocation = document.getElementById("birth-location").value;
+  
 
   // Validar y realizar cálculos
   const [day, month] = enteredBirthdate.split("/");
